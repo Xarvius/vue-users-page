@@ -1,18 +1,34 @@
 <template>
   <div id="app">
+    
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="nav">
+      <router-link to="/">Home</router-link>|
+       <router-link to="/about">About</router-link>|
+      </div>
+    <router-view />
+    <div>{{ profile }}</div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import gql from 'graphql-tag'
 
+const GET_PROFILE = gql`query getProfile{
+      profile{
+        firstName,
+        lastName,
+        qualification,
+        phone
+      }
+    }`
 export default {
+  apollo: {
+    profile: {
+      query: GET_PROFILE
+    }
+  },
   name: 'App',
-  components: {
-    HelloWorld
-  }
 }
 </script>
 
