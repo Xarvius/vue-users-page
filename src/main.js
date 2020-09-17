@@ -6,8 +6,9 @@ import { HttpLink  } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { onError } from "apollo-link-error"
 import router from './router'
-
-
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // HTTP connection to the API
 const httpLink = new HttpLink({
@@ -33,6 +34,8 @@ const apolloClient = new ApolloClient({
   connectToDevTools: true
 })
 Vue.use(VueApollo)
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 
 const apolloProvider = new VueApollo({
