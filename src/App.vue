@@ -1,17 +1,13 @@
 <template>
   <div id="app">
-    <b-navbar type="dark" variant="dark">
-      <b-navbar-nav>
-        <b-nav-item to="/">Home</b-nav-item>
-        <b-nav-item to="/about">About</b-nav-item>
-      </b-navbar-nav>
-    </b-navbar>
+    <MenuControl/>
     <router-view />
     <div>{{ profile }}</div>
   </div>
 </template>
 
 <script>
+import MenuControl from './views/MenuControl.vue'
 import gql from 'graphql-tag'
 
 const GET_PROFILE = gql`query getProfile{
@@ -29,6 +25,9 @@ export default {
     }
   },
   name: 'App',
+  components: {
+    MenuControl,
+  }
 }
 </script>
 
