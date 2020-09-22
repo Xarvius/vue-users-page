@@ -1,13 +1,38 @@
 <template>
   <div id="app">
     <MenuControl :options=options />
-    <router-view />
-    <div>{{ profile }}</div>
+    
+
+    <div class="d-flex align-items-center mb-3" v-if="loadingTime != 3" >
+      <b-progress class="w-100" :max="maxLoadingTime" height="0.8rem">
+        <b-progress-bar :value="loadingTime" :label="`${((loadingTime / maxLoadingTime) * 100).toFixed(2)}%`"></b-progress-bar>
+      </b-progress>
+    </div>
+    <b-skeleton-wrapper :loading="loading">
+      <template v-slot:loading>
+        <b-card>
+          <b-skeleton width="85%"></b-skeleton>
+          <b-skeleton width="55%"></b-skeleton>
+          <b-skeleton width="70%"></b-skeleton>
+        </b-card>
+      </template>
+      <div>
+        <router-view v-if="!error" />
+        <div v-else>
+          <ErrorAPI />
+        </div>
+        <div>{{ profile }}</div>
+      </div>
+      
+    </b-skeleton-wrapper>
+    
+
   </div>
 </template>
 
 <script>
 import MenuControl from './views/MenuControl.vue'
+import ErrorAPI from './components/ErrorAPI.vue'
 import gql from 'graphql-tag'
 
 const GET_PROFILE = gql`query getProfile{
@@ -27,12 +52,61 @@ export default {
   name: 'App',
   components: {
     MenuControl,
+    ErrorAPI
   },
   data() {
     return {
-      options: false
+      options: true,
+      loading: false,
+      error: false,
+      loadingTime: 0,
+      maxLoadingTime: 3
     }
-  }
+  },
+  watch: {
+      loading(newVal, oldValue) {
+        if (newVal !== oldValue) {
+          this.clearLoadingTimeInterval()
+
+          if (newVal) {
+            this.$_loadingTimeInterval = setInterval(() => {
+              this.loadingTime++
+            }, 1000)
+          }
+        }
+      },
+      loadingTime(newVal, oldValue) {
+        if (newVal !== oldValue) {
+          if (this.profile){
+            this.loading = false
+            this.loadingTime = 3
+            return;
+          }
+          if (newVal === this.maxLoadingTime) {
+            if(!this.profile){
+              this.error = true
+            }
+            this.loading = false
+          }
+        }
+      }
+    },
+    created() {
+      this.$_loadingTimeInterval = null
+    },
+    mounted() {
+      this.startLoading()
+    },
+    methods: {
+      clearLoadingTimeInterval() {
+        clearInterval(this.$_loadingTimeInterval)
+        this.$_loadingTimeInterval = null
+      },
+      startLoading() {
+        this.loading = true
+        this.loadingTime = 0
+      }
+    }
 }
 </script>
 
