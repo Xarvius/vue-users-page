@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <MenuControl/>
+    <MenuControl :options=options />
     <router-view />
     <div>{{ profile }}</div>
   </div>
@@ -27,6 +27,11 @@ export default {
   name: 'App',
   components: {
     MenuControl,
+  },
+  data() {
+    return {
+      options: false
+    }
   }
 }
 </script>
