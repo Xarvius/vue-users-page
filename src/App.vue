@@ -21,7 +21,6 @@
         <div v-else>
           <ErrorAPI />
         </div>
-        <div>{{ profile }}</div>
       </div>
       
     </b-skeleton-wrapper>
