@@ -1,6 +1,6 @@
 <template>
   <div class="About">
-    <h1><b-img v-bind="mainProps" rounded="circle" alt="Circle image"></b-img> {{profile[0].qualification}}. {{profile[0].firstName}} {{profile[0].lastName}}</h1>
+    <h1><b-img v-bind="mainProps" rounded="circle" alt="Circle image"></b-img> {{profile.qualification}} {{profile.firstName}} {{profile.lastName}}</h1>
     <h2>Publikacje</h2>
     <Publications :publications=publications />
   </div>
@@ -12,7 +12,7 @@ import Publications from '../components/Publications.vue'
 import gql from 'graphql-tag'
 
 const GET_PROFILE = gql`query getProfile2{
-      profile{
+      profile (id: 2){
         firstName,
         lastName,
         phone,
