@@ -1,10 +1,28 @@
 <template>
   <div>
-  <b-card no-body>
-    <b-tabs pills card vertical lazy>
-      <b-tab v-for="pub in publications" :key="pub.name" :title="pub.name"><b-card-text>{{ pub.content }}</b-card-text></b-tab>
-    </b-tabs>
-  </b-card>
+  <div  v-if="publications">
+    <b-table
+      id="cards"
+      :items="publications"
+      :fields="fields"
+      :per-page="perPage"
+      :current-page="currentPage"
+    ></b-table>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="cards"
+      align="center"
+    ></b-pagination>
+  </div>
+  <div v-else>
+    <b-skeleton-table
+    :rows="3"
+    :columns="1"
+    :table-props="{ bordered: true, striped: true }"
+  ></b-skeleton-table>
+  </div>
 </div>
 </template>
 
@@ -12,6 +30,21 @@
 export default {
   props: {
     publications: {}
+  },
+  data() {
+    return {
+      perPage: 2,
+      currentPage: 1,
+      fields: [{
+        key: "info",
+        label: "Publikacje"
+      }]
+    }
+  },
+  computed: {
+    rows() {
+      return this.publications.length
+    }
   }
 }
 </script>
