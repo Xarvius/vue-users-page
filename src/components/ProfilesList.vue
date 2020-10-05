@@ -1,5 +1,5 @@
 <template>
-  <b-nav-item to="TODO" >
+  <b-nav-item :to="userFullName" >
     <b-card>
         <b-media>
         <template v-slot:aside>
@@ -9,7 +9,6 @@
         <h5 class="mt-0">{{profile.firstName}} {{profile.lastName}}</h5>
         <p>
             {{profile.email}} <br>
-           <a :href="profile.USOSlink">USOS Link</a>
         </p>
         </b-media>
     </b-card>
@@ -20,6 +19,11 @@
 export default {
     props: {
         profile: {}
+    },
+    computed: {
+        userFullName: function() {
+            return this.profile.firstName[0] + "." + this.profile.lastName
+        }
     }
 }
 </script>

@@ -33,7 +33,7 @@ export default {
   },
   data() {
     return {
-      perPage: 2,
+      perPage: 3,
       currentPage: 1,
       fields: [{
         key: "info",

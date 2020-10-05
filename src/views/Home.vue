@@ -13,7 +13,6 @@ const GET_PROFILES = gql`query getProfiles{
         firstName,
         lastName,
         email,
-        USOSlink,
         user {
           id
         }

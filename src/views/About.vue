@@ -1,7 +1,6 @@
 <template>
   <div class="About">
-    <h1><b-img v-bind="mainProps" rounded="circle" alt="Circle image"></b-img> {{profile.qualification}} {{profile.firstName}} {{profile.lastName}}</h1>
-    <h2>Publikacje</h2>
+    <h1><b-img v-bind="mainProps" rounded="circle" alt="Circle image"></b-img> </h1>
     <Publications :publications=publications />
   </div>
 </template>
@@ -16,12 +15,12 @@ const GET_PROFILE = gql`query getProfile2{
         firstName,
         lastName,
         phone,
+        USOSlink,
         qualification,
       }
     }`
 const GET_PUBLICATIONS = gql`query getPublcations{
   publications (id: 3) {
-    id,
     info
   }
 }`
