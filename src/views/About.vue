@@ -1,24 +1,16 @@
 <template>
   <div class="About">
     <h1><b-img v-bind="mainProps" rounded="circle" alt="Circle image"></b-img> </h1>
+    {{ $apollo.loading }}
+    {{ profile }}
     <Publications :publications=publications />
   </div>
 </template>
 
 <script>
-// import router from './router/index'
 import Publications from '../components/Publications.vue'
 import gql from 'graphql-tag'
 
-const GET_PROFILE = gql`query getProfile2{
-      profile (id: 3){
-        firstName,
-        lastName,
-        phone,
-        USOSlink,
-        qualification,
-      }
-    }`
 const GET_PUBLICATIONS = gql`query getPublcations{
   publications (id: 3) {
     info
@@ -27,7 +19,20 @@ const GET_PUBLICATIONS = gql`query getPublcations{
 export default {
   apollo: {
     profile: {
-      query: GET_PROFILE
+      query: gql`query getProfile2($name: String!){
+      profile (alias: $name){
+        firstName,
+        lastName,
+        phone,
+        USOSlink,
+        qualification,
+      }
+    }`,
+    variables() {
+      return {
+        name: this.name
+      }
+    }
     },
     publications: {
       query: GET_PUBLICATIONS
@@ -40,7 +45,8 @@ export default {
     return {
        mainProps: { blank: true, blankColor: '#777', width: 75, height: 75, class: 'm1' }
     }
-  }
+  },
+  props: ['name']
 }
 </script>
 

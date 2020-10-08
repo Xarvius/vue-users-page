@@ -8,9 +8,9 @@ Vue.use(VueRouter)
 const routes = new VueRouter({
   routes: [
     { path: '/', name: 'Strona główna', component: Home },
-    { path: '/:name', name: 'O mnie', component: About },
+    { path: '/:name', name: 'O mnie', component: About, props: true},
   ]
 })
 
   
-  export default routes
+export default routes
