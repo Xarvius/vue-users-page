@@ -20,32 +20,16 @@
           <ErrorAPI />
         </div>
       </div>
-      
     </b-skeleton-wrapper>
     
-
   </div>
 </template>
 
 <script>
 import MenuControl from './views/MenuControl.vue'
 import ErrorAPI from './components/ErrorAPI.vue'
-import gql from 'graphql-tag'
 
-const GET_PROFILES = gql`query getProfilesTest{
-      profiles{
-        firstName,
-        lastName,
-        email,
-        USOSlink
-      }
-    }`
 export default {
-  apollo: {
-    profiles: {
-      query: GET_PROFILES,
-      }
-  },
   name: 'App',
   components: {
     MenuControl,
@@ -58,7 +42,7 @@ export default {
       error: false,
       loadingTime: 0,
       maxLoadingTime: 3,
-      profiles: {}
+      profiles: {} //TODO
     }
   },
   watch: {

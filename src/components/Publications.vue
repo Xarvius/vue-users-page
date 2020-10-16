@@ -1,6 +1,6 @@
 <template>
   <div>
-  <div  v-if="publications">
+  <div v-if="publications">
     <b-table
       id="cards"
       :items="publications"

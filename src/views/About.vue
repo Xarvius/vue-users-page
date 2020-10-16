@@ -1,9 +1,22 @@
 <template>
   <div class="About">
-    <h1><b-img v-bind="mainProps" rounded="circle" alt="Circle image"></b-img> </h1>
-    {{ $apollo.loading }}
-    {{ profile }}
-    <Publications :publications=publications />
+    <div v-if="$apollo.loading">
+      <b-card>
+        <b-skeleton animation="wave" width="85%"></b-skeleton>
+        <b-skeleton animation="wave" width="55%"></b-skeleton>
+        <b-skeleton animation="wave" width="70%"></b-skeleton>
+      </b-card>
+      <b-skeleton-table
+        :rows="3"
+        :columns="1"
+        :table-props="{ bordered: true, striped: true }"
+      ></b-skeleton-table>
+    </div>
+    <div v-else>
+      <h1><b-img v-bind="mainProps" rounded="circle" alt="Circle image"></b-img> {{ fullName }}</h1>
+      {{ extras.intro }}
+      <Publications :publications=publications />
+    </div>    
   </div>
 </template>
 
@@ -16,15 +29,19 @@ const GET_PUBLICATIONS = gql`query getPublcations{
     info
   }
 }`
+
+const GET_EXTRAS = gql`query getExtras{
+  extras (id: 3) {
+    intro
+  }
+}`
 export default {
   apollo: {
     profile: {
-      query: gql`query getProfile2($name: String!){
+      query: gql`query getProfile($name: String!){
       profile (alias: $name){
         firstName,
         lastName,
-        phone,
-        USOSlink,
         qualification,
       }
     }`,
@@ -36,6 +53,9 @@ export default {
     },
     publications: {
       query: GET_PUBLICATIONS
+    },
+    extras: {
+      query: GET_EXTRAS
     }
   },
   components: {
@@ -44,6 +64,11 @@ export default {
   data() {
     return {
        mainProps: { blank: true, blankColor: '#777', width: 75, height: 75, class: 'm1' }
+    }
+  },
+  computed:{
+    fullName: function(){
+      return  `${this.profile.qualification} ${this.profile.firstName} ${this.profile.lastName}`
     }
   },
   props: ['name']
