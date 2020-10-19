@@ -27,9 +27,25 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
+
 export default {
+  apollo: {
+        publications: {
+            query: gql`query getPublcations($id: ID){
+                publications (id: $id) {
+                    info
+                }
+            }`,
+            variables() {
+                return {
+                    id: this.idToNumber
+                }
+            }
+        },
+    },
   props: {
-    publications: {}
+    id: String
   },
   data() {
     return {
@@ -44,7 +60,10 @@ export default {
   computed: {
     rows() {
       return this.publications.length
-    }
+    },
+    idToNumber: function() {
+            return Number(this.id)
+        }
   }
 }
 </script>
